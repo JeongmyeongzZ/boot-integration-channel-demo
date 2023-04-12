@@ -1,5 +1,7 @@
-package com.example.bootintegrationchanneldemo.application;
+package com.example.bootintegrationchanneldemo.adapter.out;
 
+import com.example.bootintegrationchanneldemo.domain.EmailParam;
+import com.example.bootintegrationchanneldemo.port.out.SendEmailPort;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.mail.SimpleMailMessage;
@@ -9,15 +11,15 @@ import org.springframework.stereotype.Service;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class SendEmailService {
-
+public class SendEmailAdapter implements SendEmailPort {
     private final JavaMailSender javaMailSender;
 
-    public void send() {
+    @Override
+    public void send(EmailParam param) {
         SimpleMailMessage message = new SimpleMailMessage();
-        message.setTo("kimbym23@gmail.com");
-        message.setSubject("Test Email Title");
-        message.setText("Some Test Body");
+        message.setTo(param.email());
+        message.setSubject(param.subject());
+        message.setText(param.body());
 
         javaMailSender.send(message);
     }
